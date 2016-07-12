@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>DIN Rain Setting</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+</head>
+
+<body>
+    <script src="//code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script>
+<!--
+    var options;
+    $(function() {
+        options = window.location.hash;
+        if (options) {
+            options = decodeURIComponent(options.substr(1));
+        } else {
+            options = "{}";
+        }
+        options = JSON.parse(options);
+
+        options.layout = options.layout || 0;
+        options.color_preset = options.color_preset || 0;
+        options.color_right_background = options.color_right_background || "#0000AA";
+        options.color_left_background = options.color_left_background || "#FFFFFF";
+        options.color_weekday_foreground = options.color_weekday_foreground || "#0000AA";
+        options.color_day_background = options.color_day_background || "#FFFFFF";
+        options.color_day_foreground = options.color_day_foreground || "#0000AA";
+        options.color_sec_foreground = options.color_sec_foreground || "#0000AA";
+        options.color_battery_foreground = options.color_battery_foreground || "#0000AA";
+        options.color_rain_line = options.color_rain_line || "#0000AA";
+        options.color_rain_background = options.color_rain_background || "#FFFFFF";
+        options.color_rain_min_foreground = options.color_rain_min_foreground || "#0000AA";
+        options.color_rain_mm_foreground = options.color_rain_mm_foreground || "#0000AA";
+        options.color_rain_graph = options.color_rain_graph || "#00FFFF";
+        options.color_bt_background = options.color_bt_background || "#FF0055";
+        options.color_bt_foreground = options.color_bt_foreground || "#0000AA";
+
+        var layouts = [
+            "右に時刻表示",
+            "左に時刻表示",
+        ];
+        var layout_options = $.map(layouts, function (i, value) {
+            var isSelected = (value == options.layout);
+            var $option = $("<option>", { value: value, text: i, selected: isSelected});
+            return $option;
+        });
+        $("#layout").append(layout_options);
+
+        // プリセット
+        var color_presets;
+        color_presets = {
+            0: "あお",
+            1: "くろ",
+            2: "はい",
+            3: "ちゃ",
+            4: "みどり",
+            5: "もも",
+            6: "むらさき",
+        };
+        var color_preset_options = $.map(color_presets, function (i, value) {
+            var isSelected = (value == options.color_preset);
+            var $option = $("<option>", { value: value, text: i, selected: isSelected});
+            return $option;
+        });
+        $("#color_preset").append(color_preset_options);
+
+        var color_presets_detail = {
+            0: {
+                color_right_background: "#0000AA",
+                color_left_background: "#FFFFFF",
+                color_weekday_foreground: "#0000AA",
+                color_day_background: "#0000AA",
+                color_day_foreground: "#FFFFFF",
+                color_sec_foreground: "#0000AA",
+                color_battery_foreground: "#0000AA",
+                color_rain_line: "#0000AA",
+                color_rain_background: "#FFFFFF",
+                color_rain_min_foreground: "#0000AA",
+                color_rain_mm_foreground: "#0000AA",
+                color_rain_graph: "#00FFFF",
+                color_bt_background: "#FF0055",
+                color_bt_foreground: "#0000AA",
+            },
+            1: {
+                color_right_background: "#000000",
+                color_left_background: "#FFFFFF",
+                color_weekday_foreground: "#000000",
+                color_day_background: "#000000",
+                color_day_foreground: "#FFFFFF",
+                color_sec_foreground: "#000000",
+                color_battery_foreground: "#000000",
+                color_rain_line: "#000000",
+                color_rain_background: "#FFFFFF",
+                color_rain_min_foreground: "#000000",
+                color_rain_mm_foreground: "#000000",
+                color_rain_graph: "#00FFFF",
+                color_bt_background: "#FF0055",
+                color_bt_foreground: "#000000",
+            },
+            2: {
+                color_right_background: "#555555",
+                color_left_background: "#FFFFFF",
+                color_weekday_foreground: "#555555",
+                color_day_background: "#555555",
+                color_day_foreground: "#FFFFFF",
+                color_sec_foreground: "#555555",
+                color_battery_foreground: "#555555",
+                color_rain_line: "#555555",
+                color_rain_background: "#FFFFFF",
+                color_rain_min_foreground: "#555555",
+                color_rain_mm_foreground: "#555555",
+                color_rain_graph: "#00FFFF",
+                color_bt_background: "#FF0055",
+                color_bt_foreground: "#555555",
+            },
+            3: {
+                color_right_background: "#AA5500",
+                color_left_background: "#FFFFFF",
+                color_weekday_foreground: "#AA5500",
+                color_day_background: "#AA5500",
+                color_day_foreground: "#FFFFFF",
+                color_sec_foreground: "#AA5500",
+                color_battery_foreground: "#AA5500",
+                color_rain_line: "#AA5500",
+                color_rain_background: "#FFFFFF",
+                color_rain_min_foreground: "#AA5500",
+                color_rain_mm_foreground: "#AA5500",
+                color_rain_graph: "#00FFFF",
+                color_bt_background: "#FF0055",
+                color_bt_foreground: "#AA5500",
+            },
+            4: {
+                color_right_background: "#005500",
+                color_left_background: "#FFFFFF",
+                color_weekday_foreground: "#005500",
+                color_day_background: "#005500",
+                color_day_foreground: "#FFFFFF",
+                color_sec_foreground: "#005500",
+                color_battery_foreground: "#005500",
+                color_rain_line: "#005500",
+                color_rain_background: "#FFFFFF",
+                color_rain_min_foreground: "#005500",
+                color_rain_mm_foreground: "#005500",
+                color_rain_graph: "#00FFFF",
+                color_bt_background: "#FF0055",
+                color_bt_foreground: "#005500",
+            },
+            5: {
+                color_right_background: "#FF5555",
+                color_left_background: "#FFFFFF",
+                color_weekday_foreground: "#FF5555",
+                color_day_background: "#FF5555",
+                color_day_foreground: "#FFFFFF",
+                color_sec_foreground: "#FF5555",
+                color_battery_foreground: "#FF5555",
+                color_rain_line: "#FF5555",
+                color_rain_background: "#FFFFFF",
+                color_rain_min_foreground: "#FF5555",
+                color_rain_mm_foreground: "#FF5555",
+                color_rain_graph: "#00FFFF",
+                color_bt_background: "#FF0055",
+                color_bt_foreground: "#FF5555",
+            },
+            6: {
+                color_right_background: "#AA00AA",
+                color_left_background: "#FFFFFF",
+                color_weekday_foreground: "#AA00AA",
+                color_day_background: "#AA00AA",
+                color_day_foreground: "#FFFFFF",
+                color_sec_foreground: "#AA00AA",
+                color_battery_foreground: "#AA00AA",
+                color_rain_line: "#AA00AA",
+                color_rain_background: "#FFFFFF",
+                color_rain_min_foreground: "#AA00AA",
+                color_rain_mm_foreground: "#AA00AA",
+                color_rain_graph: "#00FFFF",
+                color_bt_background: "#FF0055",
+                color_bt_foreground: "#AA00AA",
+            },
+        };
+
+
+        var colors = [
+            "#000000",
+            "#000055",
+            "#0000AA",
+            "#0000FF",
+            "#005500",
+            "#005555",
+            "#0055AA",
+            "#0055FF",
+            "#00AA00",
+            "#00AA55",
+            "#00AAAA",
+            "#00AAFF",
+            "#00FF00",
+            "#00FF55",
+            "#00FFAA",
+            "#00FFFF",
+            "#550000",
+            "#550055",
+            "#5500AA",
+            "#5500FF",
+            "#555500",
+            "#555555",
+            "#5555AA",
+            "#5555FF",
+            "#55AA00",
+            "#55AA55",
+            "#55AAAA",
+            "#55AAFF",
+            "#55FF00",
+            "#55FF55",
+            "#55FFAA",
+            "#55FFFF",
+            "#AA0000",
+            "#AA0055",
+            "#AA00AA",
+            "#AA00FF",
+            "#AA5500",
+            "#AA5555",
+            "#AA55AA",
+            "#AA55FF",
+            "#AAAA00",
+            "#AAAA55",
+            "#AAAAAA",
+            "#FFFFFF",
+            "#AAAAFF",
+            "#AAFF00",
+            "#AAFF55",
+            "#AAFFAA",
+            "#AAFFFF",
+            "#FF0000",
+            "#FF0055",
+            "#FF00AA",
+            "#FF00FF",
+            "#FF5500",
+            "#FF5555",
+            "#FF55AA",
+            "#FF55FF",
+            "#FFAA00",
+            "#FFAA55",
+            "#FFAAAA",
+            "#FFAAFF",
+            "#FFFF00",
+            "#FFFF55",
+            "#FFFFAA"
+        ];
+
+        var target_select = [
+            "#color_right_background",
+            "#color_left_background",
+            "#color_weekday_foreground",
+            "#color_day_background",
+            "#color_day_foreground",
+            "#color_sec_foreground",
+            "#color_battery_foreground",
+            "#color_rain_line",
+            "#color_rain_background",
+            "#color_rain_min_foreground",
+            "#color_rain_mm_foreground",
+            "#color_rain_graph",
+            "#color_bt_background",
+            "#color_bt_foreground",
+        ];
+
+        $.each(target_select, function(index, target) {
+            var color_options = $.map(colors, function (value) {
+                var isSelected = (value == options[target.substr(1)]);
+                var $option = $("<option>", { value: value, text: value, selected: isSelected}).css("background-color", value);
+                return $option;
+            });
+
+            $(target).append(color_options);
+        });
+
+        $(".select").change(function() {
+            options[$(this).attr("id")] = $(this).val();
+        });
+
+        $("#color_preset").change(function() {
+            var preset = $(this).val();
+            $("#color_right_background").val(color_presets_detail[preset].color_right_background);
+            $("#color_left_background").val(color_presets_detail[preset].color_left_background);
+            $("#color_weekday_foreground").val(color_presets_detail[preset].color_weekday_foreground);
+            $("#color_day_background").val(color_presets_detail[preset].color_day_background);
+            $("#color_day_foreground").val(color_presets_detail[preset].color_day_foreground);
+            $("#color_sec_foreground").val(color_presets_detail[preset].color_sec_foreground);
+            $("#color_battery_foreground").val(color_presets_detail[preset].color_battery_foreground);
+            $("#color_rain_line").val(color_presets_detail[preset].color_rain_line);
+            $("#color_rain_background").val(color_presets_detail[preset].color_rain_background);
+            $("#color_rain_min_foreground").val(color_presets_detail[preset].color_rain_min_foreground);
+            $("#color_rain_mm_foreground").val(color_presets_detail[preset].color_rain_mm_foreground);
+            $("#color_rain_graph").val(color_presets_detail[preset].color_rain_graph);
+            $("#color_bt_background").val(color_presets_detail[preset].color_bt_background);
+            $("#color_bt_foreground").val(color_presets_detail[preset].color_bt_foreground);
+
+            options.color_right_background = color_presets_detail[preset].color_right_background;
+            options.color_left_background = color_presets_detail[preset].color_left_background;
+            options.color_weekday_foreground = color_presets_detail[preset].color_weekday_foreground;
+            options.color_day_background = color_presets_detail[preset].color_day_background;
+            options.color_day_foreground = color_presets_detail[preset].color_day_foreground;
+            options.color_sec_foreground = color_presets_detail[preset].color_sec_foreground;
+            options.color_battery_foreground = color_presets_detail[preset].color_battery_foreground;
+            options.color_rain_line = color_presets_detail[preset].color_rain_line;
+            options.color_rain_background = color_presets_detail[preset].color_rain_background;
+            options.color_rain_min_foreground = color_presets_detail[preset].color_rain_min_foreground;
+            options.color_rain_mm_foreground = color_presets_detail[preset].color_rain_mm_foreground;
+            options.color_rain_graph = color_presets_detail[preset].color_rain_graph;
+            options.color_bt_background = color_presets_detail[preset].color_bt_background;
+            options.color_bt_foreground = color_presets_detail[preset].color_bt_foreground;
+        });
+
+        $("#save").on("click", function() {
+            window.location.href = "pebblejs://close#" + encodeURIComponent(JSON.stringify(options));
+            console.log("JSON:" + JSON.stringify(options));
+            return false;
+        });
+    });
+//-->
+    </script>
+
+
+    <div class="container">
+            <form class="form-horizontal">
+                    <div class="form-group form-inline">
+                        <label for="layout" class="control-label">レイアウト</label>
+                        <select class="form-control select" id="layout">
+                        </select>
+                    </div>
+
+                    <div class="form-group form-inline">
+                        <label for="color_preset" class="control-label">カラープリセット</label>
+                        <select class="form-control select" id="color_preset">
+                        </select>
+                    </div>
+
+                    <div class="form-group form-inline">
+                        <label for="color_right_background" class="control-label">右背景色</label>
+                        <select class="form-control select" id="color_right_background">
+                        </select>
+                    </div>
+
+                    <div class="form-group form-inline">
+                        <label for="color_left_background" class="control-label">左背景色</label>
+                        <select class="form-control select" id="color_left_background">
+                        </select>
+                    </div>
+
+                    <div class="form-group form-inline">
+                        <label for="color_weekday_foreground" class="control-label">曜日文字色</label>
+                        <select class="form-control select" id="color_weekday_foreground">
+                        </select>
+                    </div>
+
+                    <div class="form-group form-inline">
+                        <label for="color_day_background" class="control-label">日付背景色</label>
+                        <select class="form-control select" id="color_day_background">
+                        </select>
+                    </div>
+
+                    <div class="form-group form-inline">
+                        <label for="color_day_foreground" class="control-label">日付文字色</label>
+                        <select class="form-control select" id="color_day_foreground">
+                        </select>
+                    </div>
+
+                    <div class="form-group form-inline">
+                        <label for="color_sec_foreground" class="control-label">秒文字色</label>
+                        <select class="form-control select" id="color_sec_foreground">
+                        </select>
+                    </div>
+
+                    <div class="form-group form-inline">
+                        <label for="color_battery_foreground" class="control-label">バッテリー文字色</label>
+                        <select class="form-control select" id="color_battery_foreground">
+                        </select>
+                    </div>
+
+                    <div class="form-group form-inline">
+                        <label for="color_rain_line" class="control-label">降水枠色</label>
+                        <select class="form-control select" id="color_rain_line">
+                        </select>
+                    </div>
+
+                    <div class="form-group form-inline">
+                        <label for="color_rain_background" class="control-label">降水背景色</label>
+                        <select class="form-control select" id="color_rain_background">
+                        </select>
+                    </div>
+
+                    <div class="form-group form-inline">
+                        <label for="color_rain_min_foreground" class="control-label">降水分文字色</label>
+                        <select class="form-control select" id="color_rain_min_foreground">
+                        </select>
+                    </div>
+
+                    <div class="form-group form-inline">
+                        <label for="color_rain_mm_foreground" class="control-label">降水量文字色</label>
+                        <select class="form-control select" id="color_rain_mm_foreground">
+                        </select>
+                    </div>
+
+                    <div class="form-group form-inline">
+                        <label for="color_rain_graph" class="control-label">降水量グラフ色</label>
+                        <select class="form-control select" id="color_rain_graph">
+                        </select>
+                    </div>
+
+                    <div class="form-group form-inline">
+                        <label for="color_bt_background" class="control-label">bluetooth背景色</label>
+                        <select class="form-control select" id="color_bt_background">
+                        </select>
+                    </div>
+
+                    <div class="form-group form-inline">
+                        <label for="color_bt_foreground" class="control-label">bluetooth前景色</label>
+                        <select class="form-control select" id="color_bt_foreground">
+                        </select>
+                    </div>
+
+                    <div class="form-group form-inline">
+                        <button class="btn btn-primary" id="save">設定保存</button>
+                    </div>
+            </form>
+    </div>
+</body>
+</html>
